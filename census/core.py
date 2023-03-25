@@ -562,7 +562,16 @@ class PLClient(Client):
         if tract:
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
-
+    
+    @supported_years()
+    def state_county_block(self, fields, state_fips, county_fips, block, tract=None, **kwargs):
+        geo = {
+            'for': 'block:{}'.format(block),
+            'in': 'state:{} county:{}'.format(state_fips, county_fips),
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
 
 class Census(object):
 
